@@ -86,6 +86,17 @@ const MARGINAL_PROFIT_PERCENTAGE = [
     { label: "50", value: "50", marginalProfitPercentage: 50 },
 ];
 
+
+const PUNCHING_MACHINE_COST = [
+    { label: "Select punching cost", value: "", punchingMachineCost: 0 },
+    { label: "0.25", value: "0.25", punchingMachineCost: 0.25 },
+    { label: "0.30", value: "0.30", punchingMachineCost: 0.30 },
+    { label: "0.35", value: "0.35", punchingMachineCost: 0.35 },
+    { label: "0.40", value: "0.42", punchingMachineCost: 0.40 },
+    { label: "0.45", value: "0.45", punchingMachineCost: 0.45 },
+    { label: "0.50", value: "0.50", punchingMachineCost: 0.50 },
+];
+
 function num(id) {
     const v = $("#" + id).val();
     const n = Number(v);
@@ -175,6 +186,18 @@ function setupMarginalProfit() {
 
     const $select = $("<select/>", { id: "marginal-profit-percentage" });
     $.each(MARGINAL_PROFIT_PERCENTAGE, function (_, p) {
+        $("<option/>", { value: p.value, text: p.label }).appendTo($select);
+    });
+    $old.replaceWith($select);
+}
+
+function setupPunchingMachineCost() {
+    const $old = $("#punching-machine-cost");
+    if (!$old.length) return;
+    if ($old.prop("tagName").toLowerCase() === "select") return;
+
+    const $select = $("<select/>", { id: "punching-machine-cost" });
+    $.each(PUNCHING_MACHINE_COST, function (_, p) {
         $("<option/>", { value: p.value, text: p.label }).appendTo($select);
     });
     $old.replaceWith($select);
@@ -374,6 +397,7 @@ function calculate() {
 
     const wastagePercent = num("wastage-percent");
     const marginalProfitPercentage = num("marginal-profit-percentage");
+    const punchingMachineCost = num("punching-machine-cost");
 
     // profit validation
     if (marginalProfitPercentage < 0 || marginalProfitPercentage > 100) {
@@ -505,6 +529,7 @@ $(function () {
     setupPunchDieCost();
     setupBoxWastage();
     setupMarginalProfit();
+    setupPunchingMachineCost();
 
     // auto-fill paper-price from selected type
     $("#paper-type").on("change", function () {
@@ -553,6 +578,13 @@ $(function () {
         const selectedValue = $(this).val();
         const selectedCost = MARGINAL_PROFIT_PERCENTAGE.find((p) => p.value === selectedValue);
         $("#marginal-profit").val(selectedCost ? selectedCost.marginalProfitPercentage : "");
+    });
+
+    // auto-fill punching machine cost from selected machine cost
+    $("#punching-machine-cost").on("change", function () {
+        const selectedValue = $(this).val();
+        const selectedCost = PUNCHING_MACHINE_COST.find((p) => p.value === selectedValue);
+        $("#punch-machine").val(selectedCost ? selectedCost.punchingMachineCost : "");
     });
 
     // FIX: submit handler must be on #calculation-form (NOT #calc-form)
