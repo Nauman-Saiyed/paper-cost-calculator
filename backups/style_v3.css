@@ -1,0 +1,212 @@
+/* =========================
+  Global / Base
+========================= */
+:root{
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --muted: #6b7280;
+  --border: #d7dbe7;
+  --text: #111827;
+  --shadow: 0 10px 25px rgba(0,0,0,.08);
+  --radius: 14px;
+}
+
+*{ box-sizing: border-box; }
+
+body{
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700; /* user asked: make sentence bold */
+}
+
+.page-wrapper{
+  max-width: 980px;
+  margin: 24px auto;
+  padding: 0 14px 28px;
+  display: grid;
+  gap: 18px;
+}
+
+/* =========================
+  Cards
+========================= */
+.card{
+  background: var(--card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.card-header{
+  margin-bottom: 12px;
+}
+
+h2, h3{
+  margin: 0 0 6px;
+  text-align: center;
+}
+
+.subtext{
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+/* =========================
+   Form layout
+========================= */
+.field{
+  margin-top: 12px;
+}
+
+label{
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  font-weight: 800;
+}
+
+input, select{
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  outline: none;
+  font-size: 14px;
+  background: #fff;
+  font-weight: 700;
+}
+
+input:focus, select:focus{
+  border-color: #111827;
+}
+
+.grid-2{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 760px){
+  .grid-2{ grid-template-columns: 1fr 1fr; }
+}
+
+.inline-split{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.inline-x{
+  font-weight: 900;
+  color: #111827;
+}
+
+/* =========================
+  Buttons
+========================= */
+.btn{
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: #111827;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.btn:hover{ opacity: .96; }
+
+.btn:disabled{
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.btn-primary{
+  background: #000; 
+}
+
+#btn-calc {
+  margin-top: 25px;
+}
+
+.form-buttons{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+@media (min-width: 760px){
+  .form-buttons{ grid-template-columns: 1fr 1fr; }
+}
+
+/* =========================
+  Soft card (lamination)
+========================= */
+.card-soft{
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.card-soft-title{
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+/* =========================
+  Result Box
+========================= */
+.result-box{
+  display: none;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  background: #fafbff;
+}
+
+.result-box p{
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.result-box span{
+  font-weight: 900;
+}
+
+.result-total{
+  border-top: 1px solid rgba(17,24,39,.12);
+  padding-top: 10px;
+}
+
+/* =========================
+  Section visibility
+========================= */
+.form-container{ display: none; }
+
+/* Currency wrapper so ₹ sticks to value */
+.money{
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: baseline;
+  min-width: 120px;
+  text-align: right;
+  font-weight: 900;
+}
+.money::before{
+  content: "₹";
+  margin-right: 0; /* no space */
+}

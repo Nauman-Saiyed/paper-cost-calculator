@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Printing Cost Calculator</title>
+  <link rel="stylesheet" href="style_v3.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+  <main class="page-wrapper">
+    <!-- CALCULATION CONTAINER -->
+    <section class="card calc-container">
+      <form id="calculation-form">
+      <header class="card-header">
+        <h2>Paper Cost Calculator</h2>
+        <p class="subtext">Fill the details below and click <strong>Calculate</strong>.</p>
+      </header>
+
+      <div class="field">
+        <label for="product-name">Product Item Name</label>
+        <input type="text" id="product-name" placeholder="e.g., Soap Box" required />
+      </div>
+
+      <div class="field">
+        <label for="product-brand-name">Product Brand Name</label>
+        <input type="text" id="product-brand-name" placeholder="e.g., Brand XYZ" required />
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="sheets">Sheets</label>
+          <input type="number" id="sheets" min="0" required />
+        </div>
+
+        <div class="field">
+          <label for="ups">Ups</label>
+          <input type="number" id="ups" min="0" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Paper Size (in inches)</label>
+        <div class="inline-split">
+          <input type="number" id="paper-width" min="0" placeholder="Width" required />
+          <span class="inline-x">X</span>
+          <input type="number" id="paper-height" min="0" placeholder="Height" required />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="paper-gsm">Paper GSM</label>
+        <input type="number" id="paper-gsm" min="0" required />
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="paper-type">Select Paper Type</label>
+          <div id="paper-type" ></div>
+        </div>
+
+        <div class="field">
+          <label for="paper-price">Paper Price (₹/kg)</label>
+          <input type="number" id="paper-price" min="0" required />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="color-type">Color</label>
+          <div id="color-type"></div>
+        </div>
+
+        <div class="field">
+          <label for="color-price">Plate Price</label>
+          <input type="number" id="color-price" min="0" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="printing-cost">Printing Cost</label>
+        <input type="number" id="printing-cost" min="0" />
+      </div>
+
+      <div class="card-soft">
+        <div class="card-soft-title">Lamination</div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Lamination Size</label>
+            <div class="inline-split">
+              <input type="number" id="lamination-width" placeholder="Width" />
+              <span class="inline-x">X</span>
+              <input type="number" id="lamination-height"placeholder="Height" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="lamination-cost-per-sheet">Cost</label>
+            <input type="number" id="lamination-cost-per-sheet" min="0"  step="0.01"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="corrugation-type">Corrugation GSM</label>
+          <div id="corrugation-type"></div>
+        </div>
+
+        <div class="field">
+          <label for="corrugation-charge">Corrugation Charge</label>
+          <input type="number" id="corrugation-charge" min="0" required />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="punch-cutting-cost">Punch Cutting Cost</label>
+          <input type="number" id="punch-cutting-cost" min="0" required />
+        </div>
+
+        <div class="field">
+          <label for="delivery-cost">Delivery Cost</label>
+          <input type="number" id="delivery-cost" min="0" required />
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="field">
+          <label for="wastage-percent">Box Wastage (%)</label>
+          <input type="number" id="wastage-percent" min="0" max="100" required />
+        </div>
+
+        <div class="field">
+          <label for="marginal-profit-percentage">Marginal Profit (%)</label>
+          <input type="number" id="marginal-profit-percentage" min="0" max="100" required />
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary" id="btn-calc" >Calculate</button>
+
+      <!-- RESULT BOX -->
+      <div class="result-box" aria-live="polite">
+        <p><strong>Product Name:</strong> <span id="productName">-</span></p>
+        <p><strong>Product Brand Name:</strong> <span id="productBrandName">-</span></p>
+        <p><strong>Paper Cost:</strong> <span class="money"><span id="totalCost">0</span></span></p>
+        <p><strong>Plate Cost:</strong> <span class="money"><span id="unitCost">0</span></span></p>
+        <p><strong>Printing Cost:</strong> <span class="money"><span id="sellingPrice">0</span></span></p>
+        <p><strong>Lamination Cost:</strong> <span class="money"><span id="laminationCost">0</span></span></p>
+        <p><strong>Corrugation Cost:</strong> <span class="money"><span id="corrugationCost">0</span></span></p>
+
+        <p class="result-total"><strong>Total Cost:</strong> <span class="money"><span id="totalCostAll">0</span></span></p>
+        <p class="result-total"><strong>Per Box Cost:</strong> <span class="money"><span id="perBoxCost">0</span></span></p>
+      </div>
+      </form>
+    </section>
+
+    <!-- ENQUIRY FORM CONTAINER -->
+    <section class="card form-container">
+      <header class="card-header">
+        <h3>Customer Enquiry</h3>
+        <p class="subtext">Generate quotation after calculation.</p>
+      </header>
+
+      <div class="field">
+        <label for="user-name">Name</label>
+        <input type="text" id="user-name" placeholder="Enter your name" />
+      </div>
+
+      <div class="field">
+        <label for="company-name">Company Name</label>
+        <input type="text" id="company-name" placeholder="Enter your Company Name" />
+      </div>
+
+      <div class="field">
+        <label for="user-email">Email ID</label>
+        <input type="email" id="user-email" placeholder="Enter your email" />
+      </div>
+
+      <div class="field">
+        <label for="user-phone">Phone</label>
+        <input type="text" id="user-phone" placeholder="Enter your phone number" />
+      </div>
+
+      <div class="form-buttons">
+        <button type="button" class="btn" id="generate-quotation" disabled>Generate Quotation</button>
+        <button type="button" class="btn" id="send-email" disabled>Send Email</button>
+      </div>
+
+      <!-- quotation preview (optional) --> 
+      <div id="quotation-preview"></div> 
+    </section>
+  </main>
+
+  <script src="script_v4.js"></script>
+</body>
+</html>
