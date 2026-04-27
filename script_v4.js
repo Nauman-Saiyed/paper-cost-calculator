@@ -1,9 +1,14 @@
 const PAPER_TYPES = [
     { label: "Select Paper Type", value: "", ratePerKg: 0 },
     { label: "Art Paper", value: "art", ratePerKg: 110 },
-    { label: "Duplex Paper ", value: "duplex", ratePerKg: 65 },
+    { label: "Duplex (Grey Back) Paper ", value: "duplex", ratePerKg: 65 },
     { label: "Kraft Paper ", value: "kraft", ratePerKg: 55 },
     { label: "Ivory Board ", value: "ivory", ratePerKg: 95 },
+    { label: "JK Ultima ", value: "jkultima", ratePerKg: 100 },
+    { label: "SBS Board ", value: "sbs", ratePerKg: 100 },
+    { label: "White Back ", value: "whiteback", ratePerKg: 100 },
+    { label: "Virgin Paper ", value: "virgin", ratePerKg: 100 },
+    { label: "Golden Kraft Paper ", value: "goldenkraft", ratePerKg: 100 },
 ];
 
 const COLOR_PRICES = [
@@ -20,6 +25,65 @@ const CORRUGATION_TYPES = [
     { label: "200 GSM", value: "200-gsm", corrugationCharge: 50 },
     { label: "300 GSM", value: "300-gsm", corrugationCharge: 53 },
     { label: "400 GSM", value: "400-gsm", corrugationCharge: 57 },
+];
+
+const LAMINATION_COST = [
+    { label: "Select Cost", value: "", laminationCost: 0 },
+    { label: "0.35", value: "0.35", laminationCost: 0.35 },
+    { label: "0.40", value: "0.40", laminationCost: 0.40 },
+    { label: "0.45", value: "0.45", laminationCost: 0.45 },
+    { label: "0.50", value: "0.50", laminationCost: 0.50 },
+    { label: "0.55", value: "0.55", laminationCost: 0.55 },
+    { label: "0.60", value: "0.60", laminationCost: 0.60 },
+    { label: "0.65", value: "0.65", laminationCost: 0.65 },
+    { label: "0.70", value: "0.70", laminationCost: 0.70 },
+    { label: "0.75", value: "0.75", laminationCost: 0.75 },
+    { label: "0.80", value: "0.80", laminationCost: 0.80 },
+    { label: "0.85", value: "0.85", laminationCost: 0.85 },
+];
+
+const PUNCH_DIE_COST = [
+    { label: "Select Cost", value: "", punchingCost: 0 },
+    { label: "100", value: "100", laminationCost: 100 },
+    { label: "150", value: "150", laminationCost: 150 },
+    { label: "200", value: "200", laminationCost: 200 },
+    { label: "250", value: "250", laminationCost: 250 },
+    { label: "300", value: "300", laminationCost: 300 },
+    { label: "350", value: "350", laminationCost: 350 },
+    { label: "400", value: "400", laminationCost: 400 },
+    { label: "450", value: "450", laminationCost: 450 },
+    { label: "500", value: "500", laminationCost: 500 },
+    { label: "550", value: "550", laminationCost: 550 },
+    { label: "600", value: "600", laminationCost: 600 },
+    { label: "650", value: "650", laminationCost: 650 },
+    { label: "700", value: "700", laminationCost: 700 },
+];
+
+const BOX_WASTAGE_VALUE = [
+    { label: "Select Box Wastage", value: "", wastagePercent: 0 },
+    { label: "1", value: "1", wastagePercent: 1 },
+    { label: "2", value: "2", wastagePercent: 2 },
+    { label: "3", value: "3", wastagePercent: 3 },
+    { label: "4", value: "4", wastagePercent: 4 },
+    { label: "5", value: "5", wastagePercent: 5 },
+    { label: "6", value: "6", wastagePercent: 6 },
+    { label: "7", value: "7", wastagePercent: 7 },
+    { label: "8", value: "8", wastagePercent: 8 },
+    { label: "9", value: "9", wastagePercent: 9 },
+    { label: "10", value: "10", wastagePercent: 10 },
+];
+
+const MARGINAL_PROFIT_PERCENTAGE = [
+    { label: "Select Marginal Profit", value: "", marginalProfitPercentage: 0 },
+    { label: "10", value: "10", marginalProfitPercentage: 10 },
+    { label: "15", value: "15", marginalProfitPercentage: 15 },
+    { label: "20", value: "20", marginalProfitPercentage: 20 },
+    { label: "25", value: "25", marginalProfitPercentage: 25 },
+    { label: "30", value: "30", marginalProfitPercentage: 30 },
+    { label: "35", value: "35", marginalProfitPercentage: 35 },
+    { label: "40", value: "40", marginalProfitPercentage: 40 },
+    { label: "45", value: "45", marginalProfitPercentage: 45 },
+    { label: "50", value: "50", marginalProfitPercentage: 50 },
 ];
 
 function num(id) {
@@ -63,6 +127,54 @@ function setupCorrugationChargesDropdown() {
 
     const $select = $("<select/>", { id: "corrugation-type" });
     $.each(CORRUGATION_TYPES, function (_, p) {
+        $("<option/>", { value: p.value, text: p.label }).appendTo($select);
+    });
+    $old.replaceWith($select);
+}
+
+function setupLaminationCost() {
+    const $old = $("#lamination-cost-per-sheet");
+    if (!$old.length) return;
+    if ($old.prop("tagName").toLowerCase() === "select") return;
+
+    const $select = $("<select/>", { id: "lamination-cost-per-sheet" });
+    $.each(LAMINATION_COST, function (_, p) {
+        $("<option/>", { value: p.value, text: p.label }).appendTo($select);
+    });
+    $old.replaceWith($select);
+}
+
+function setupPunchDieCost() {
+    const $old = $("#punch-die-cost");
+    if (!$old.length) return;
+    if ($old.prop("tagName").toLowerCase() === "select") return;
+
+    const $select = $("<select/>", { id: "punch-die-cost" });
+    $.each(PUNCH_DIE_COST, function (_, p) {
+        $("<option/>", { value: p.value, text: p.label }).appendTo($select);
+    });
+    $old.replaceWith($select);
+}
+
+function setupBoxWastage() {
+    const $old = $("#wastage-percent");
+    if (!$old.length) return;
+    if ($old.prop("tagName").toLowerCase() === "select") return;
+
+    const $select = $("<select/>", { id: "wastage-percent" });
+    $.each(BOX_WASTAGE_VALUE, function (_, p) {
+        $("<option/>", { value: p.value, text: p.label }).appendTo($select);
+    });
+    $old.replaceWith($select);
+}
+
+function setupMarginalProfit() {
+    const $old = $("#marginal-profit-percentage");
+    if (!$old.length) return;
+    if ($old.prop("tagName").toLowerCase() === "select") return;
+
+    const $select = $("<select/>", { id: "marginal-profit-percentage" });
+    $.each(MARGINAL_PROFIT_PERCENTAGE, function (_, p) {
         $("<option/>", { value: p.value, text: p.label }).appendTo($select);
     });
     $old.replaceWith($select);
@@ -167,8 +279,8 @@ function buildQuotationText(enquiry) {
     lines.push(`Brand           : ${brandName}`);
     lines.push("");
 
-    // Inputs section
-    lines.push("INPUT DETAILS");
+    // Inputs Details section
+    lines.push("DETAILS");
     lines.push("-".repeat(48));
     lines.push(`Ups             : ${$("#ups").val() || 0}`);
     lines.push(`Sheets          : ${$("#sheets").val() || 0}`);
@@ -176,8 +288,6 @@ function buildQuotationText(enquiry) {
     lines.push(`Paper GSM       : ${$("#paper-gsm").val() || 0}`);
     lines.push(`Paper Type      : ${$("#paper-type option:selected").text() || "-"}`);
     lines.push(`Colors          : ${$("#color-type option:selected").text() || "-"}`);
-    lines.push(`Wastage %       : ${$("#wastage-percent").val() || 0}`);
-    lines.push(`Profit %        : ${$("#marginal-profit-percentage").val() || 0}`);
     lines.push("");
 
     // Cost table
@@ -207,8 +317,11 @@ function buildQuotationText(enquiry) {
 
     lines.push("");
     lines.push("Notes:");
-    lines.push("1) Rates are subject to change based on final specifications.");
-    lines.push("2) This quotation is system generated.");
+    lines.push("1) BASIC RATE EX FACTORY COST");
+    lines.push("2) 5 TO 7 DAYS WORKING DAYS ON APPROVAL OF PURCHASE ORDER");
+    lines.push("3) 5% GST WILL BE CHARGED EXTRA");
+    lines.push("4) DELIVERY CHARGES WILL BE EXTRA");
+    lines.push("5) 50% AGAINST PURCHASE ORDER & 50% AGAINST DELIVERY ");
 
     return lines.join("\n");
 }
@@ -337,7 +450,7 @@ function calculate() {
     }
 
     // Required costs (as per your HTML currently required)
-    const punchingCost = num("punch-cutting-cost");
+    const punchingCost = num("punch-die-cost");
     const deliveryCost = num("delivery-cost");
 
     // total (only include optional ones if applicable)
@@ -388,6 +501,10 @@ $(function () {
     setupPaperTypeDropdown();
     setupColorTypeDropdown();
     setupCorrugationChargesDropdown();
+    setupLaminationCost();
+    setupPunchDieCost();
+    setupBoxWastage();
+    setupMarginalProfit();
 
     // auto-fill paper-price from selected type
     $("#paper-type").on("change", function () {
@@ -410,7 +527,35 @@ $(function () {
         $("#corrugation-charge").val(selectedCorrugation ? selectedCorrugation.corrugationCharge : "");
     });
 
-    // ✅ FIX: submit handler must be on #calculation-form (NOT #calc-form)
+    // auto-fill Lamination cost from selected cost
+    $("#lamination-cost-per-sheet").on("change", function () {
+        const selectedValue = $(this).val();
+        const selectedCost = LAMINATION_COST.find((p) => p.value === selectedValue);
+        $("#lamination-cost").val(selectedCost ? selectedCost.laminationCost : "");
+    });
+
+    // auto-fill punch cost from selected cost
+    $("#punch-die-cost").on("change", function () {
+        const selectedValue = $(this).val();
+        const selectedCost = PUNCH_DIE_COST.find((p) => p.value === selectedValue);
+        $("#punch-cost").val(selectedCost ? selectedCost.punchingCost : "");
+    });
+
+    // auto-fill box wastage value from selected value
+    $("#wastage-percent").on("change", function () {
+        const selectedValue = $(this).val();
+        const selectedCost = BOX_WASTAGE_VALUE.find((p) => p.value === selectedValue);
+        $("#box-wastage").val(selectedCost ? selectedCost.wastagePercent : "");
+    });
+
+    // auto-fill marginal profit rate from selected profit value
+    $("#marginal-profit-percentage").on("change", function () {
+        const selectedValue = $(this).val();
+        const selectedCost = MARGINAL_PROFIT_PERCENTAGE.find((p) => p.value === selectedValue);
+        $("#marginal-profit").val(selectedCost ? selectedCost.marginalProfitPercentage : "");
+    });
+
+    // FIX: submit handler must be on #calculation-form (NOT #calc-form)
     $("#calculation-form").on("submit", function (e) {
         e.preventDefault();
         calculate();
